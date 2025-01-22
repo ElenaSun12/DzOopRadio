@@ -24,10 +24,10 @@ public class Radio {
     }
 
     public void setStation(int station) {
-        if (currentStation < 0) {
+        if (station < 0) {
             return;
         }
-        if (currentStation > 9) {
+        if (station > 9) {
             return;
         }
         currentStation = station;

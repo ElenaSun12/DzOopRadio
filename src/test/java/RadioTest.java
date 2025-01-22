@@ -1,7 +1,7 @@
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RadioTest {
 
@@ -15,7 +15,7 @@ public class RadioTest {
         int expected = 0;
         int actual = radio.getCurrentStation();
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class RadioTest {
         int expected = 9;
         int actual = radio.getCurrentStation();
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -39,7 +39,28 @@ public class RadioTest {
         int expected = 5;
         int actual = radio.getCurrentStation();
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testSetStationBelowRange() {
+        Radio radio = new Radio();
+        radio.setStation(-1); // Попытка установить станцию ниже диапазона
+
+        int expected = 0;
+        int actual = radio.getCurrentStation();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testSetStationAboveRange() {
+        Radio radio = new Radio();
+        radio.setStation(10); // Попытка установить станцию выше диапазона
+        int expected = 0;
+        int actual = radio.getCurrentStation();
+
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -51,7 +72,19 @@ public class RadioTest {
         int expected = 100;
         int actual = radio.getCurrentVolume(); // Проверка максимума
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testIncreaseVolumeAboveMax() {
+        Radio radio = new Radio();
+        for (int i = 0; i < 101; i++) {
+            radio.increaseVolume();
+        }
+        int expected = 100;
+        int actual = radio.getCurrentVolume();
+
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -67,6 +100,15 @@ public class RadioTest {
         int expected = 0;
         int actual = radio.getCurrentVolume(); // Проверка минимума
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testDecreaseVolumeWhenZero() {
+        Radio radio = new Radio();
+        // Громкость уже инициализирована как 0
+        int expected = 0;
+        radio.decreaseVolume();
+        assertEquals(expected, radio.getCurrentVolume());
     }
 }
